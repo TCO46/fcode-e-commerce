@@ -12,6 +12,7 @@ void showMenu() {
     printf("2. Login\n");
     printf("3. Logout\n");
     printf("4. View Products\n");
+    printf("5. Search Products\n");
     printf("-1. Exit\n");
     printf("Choose an option: ");
 }

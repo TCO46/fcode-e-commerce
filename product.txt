@@ -1,0 +1,10 @@
+Dell XPS Laptop, 20000.0, 5, High-end laptop, 15.6 inch screen, Electronics
+Men's Shirt, 500.0, 50, Men's shirt made of cotton material, Fashion
+Smartphone Samsung Galaxy S21, 15000.0, 10, Latest Samsung smartphone with 6.2 inch display, Electronics
+LED TV 4K, 12000.0, 7, 55 inch 4K UHD Smart TV, Electronics
+Nike Running Shoes, 1200.0, 25, Comfortable running shoes for men, Sportswear
+Wooden Dining Table, 3500.0, 8, Elegant wooden dining table with 6 chairs, Furniture
+Wireless Bluetooth Headphones, 1500.0, 15, Noise-canceling headphones with 20 hours battery life, Electronics
+Gaming Mouse, 800.0, 40, Ergonomic design gaming mouse with RGB lights, Accessories
+Washing Machine, 9000.0, 4, Fully automatic front load washing machine, Home Appliances
+Leather Wallet, 350.0, 30, Premium leather wallet for men, Fashion
