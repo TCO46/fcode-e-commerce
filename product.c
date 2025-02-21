@@ -4,8 +4,14 @@
 #include <stdlib.h>
 #include "product.h"
 
+void clearInputBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
 // Thêm sản phẩm vào danh sách
 void addProduct(Product *products, int *count, const char *name, float price, int quantity, const char *description, const char *category) {
+    products[*count].count = *count;
     strcpy(products[*count].name, name);
     products[*count].price = price;
     products[*count].quantity = quantity;
@@ -14,16 +20,57 @@ void addProduct(Product *products, int *count, const char *name, float price, in
     (*count)++;
 }
 
+void addProductToDB() {
+    Product product;
+    FILE *file = fopen(PRODUCT_FILE, "a");
+    if (!file) {
+        printf("Error opening file!\n");
+        return;
+    }
+
+    system("clear");
+
+    printf("=====================================\n");
+    printf("           ADD NEW PRODUCT           \n");
+    printf("=====================================\n\n");
+
+    clearInputBuffer();
+
+    printf("Enter product name: ");
+    scanf("%[^\n]s", product.name);
+
+    printf("Enter product price: ");
+    scanf("%f", &product.price);
+    
+    printf("Enter product quantity: ");
+    scanf("%d", &product.quantity);
+
+    clearInputBuffer();
+
+    printf("Enter prodcut description: ");
+    scanf("%[^\n]s", product.description);
+
+    clearInputBuffer();
+
+    printf("Enter product category: ");
+    scanf("%[^\n]s", product.category);
+
+    fprintf(file, "%s, %f, %d, %s, %s\n", product.name, product.price, product.quantity, product.description, product.category);
+    fclose(file);
+
+
+    printf("Successfully added product.\n");
+}
+
 // Tìm kiếm sản phẩm theo từ khóa
 void searchProduct(Product *products, int count, const char *keyword) {
     int found = 0;
+    printf("ID   | Name                           | Price       | Stock | Category\n");
+    printf("-------------------------------------------------------------------------\n");
+
     for (int i = 0; i < count; i++) {
         if (strstr(products[i].name, keyword) != NULL || strstr(products[i].category, keyword) != NULL) {
-            printf("Product found: %s\n", products[i].name);  // "Sản phẩm tìm thấy"
-            printf("  Price: %.2f\n", products[i].price);     // "Giá"
-            printf("  Quantity: %d\n", products[i].quantity); // "Số lượng"
-            printf("  Description: %s\n", products[i].description); // "Mô tả"
-            printf("  Category: %s\n", products[i].category); // "Danh mục"
+            printf("%-2d | %-30s | $%-10.2f | %-5d | %-6s\n", products[i].count, products[i].name, products[i].price, products[i].quantity,  products[i].category);
             printf("\n");
             found = 1;
         }
@@ -39,14 +86,15 @@ void displayProducts(Product *products, int count) {
         printf("The product list is empty.\n"); 
         return;
     }
+    printf("ID  | Name                           | Price       | Stock | Category\n");
+    printf("-------------------------------------------------------------------------\n");
+
     for (int i = 0; i < count; i++) {
-        printf("Product: %s\n", products[i].name); 
-        printf("  Price: %.2f\n", products[i].price);
-        printf("  Quantity: %d\n", products[i].quantity); 
-        printf("  Description: %s\n", products[i].description); 
-        printf("  Category: %s\n", products[i].category); 
+        printf("%-2d  | %-30s | $%-10.2f | %-5d | %-6s\n", products[i].count, products[i].name, products[i].price, products[i].quantity,  products[i].category);
         printf("\n");
     }
+
+    printf("Press Enter to continue.\n");
 }
 
 // Đọc sản phẩm từ file PRODUCT_FILE
