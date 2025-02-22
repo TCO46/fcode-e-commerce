@@ -27,3 +27,4 @@ void addProductToDB();
 int readProductsFromFile(Product *products);
 
 #endif // PRODUCT_H
+

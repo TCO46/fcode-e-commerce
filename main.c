@@ -4,6 +4,7 @@
 #include "interface.h"
 #include "user.h"
 #include "product.h"
+#include "cart.h"
 
 int main() {
 	
@@ -14,8 +15,8 @@ int main() {
 	// Đọc sản phẩm từ file PRODUCT_FILE (đã được định nghĩa trong product.h)
 
 	while(1) {
-		system("clear");
-		// system("cls");
+		// system("clear");
+		system("cls");
 		showTitle();
 		showMenu();
 		scanf("%c", &choice);
@@ -78,8 +79,28 @@ int main() {
 				} else {
 					printf("You need to login first.");
 				}
-				
+
 				break;
+
+			// HERE
+
+			case '7':
+
+				printf("Add product to %s'cart:\n", loggedInUser);
+				printf("Enter keyword or category: ");
+
+				getchar();
+
+				char keyword[100];
+				fgets(keyword, sizeof(keyword), stdin); 
+				keyword[strcspn(keyword, "\n")] = 0; 
+
+
+				searchAndDisplayProducts(products, productCount, keyword, loggedInUser);
+
+
+			// END
+				
 			case 'e':
 				printf("Exiting...");
 				return 0;
