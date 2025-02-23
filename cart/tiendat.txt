@@ -1,1 +1,3 @@
-Dell XPS Laptop,20000.00,2, High-end laptop, 15.6 inch screen, Electronics
+Men's Shirt,500.00,5, Men's shirt made of cotton material, Fashion
+bla bla bla,100.00,1, bla bla bla bla, bla 
+Dell XPS Laptop,20000.00,1, High-end laptop, 15.6 inch screen, Electronics

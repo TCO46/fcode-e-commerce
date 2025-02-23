@@ -19,7 +19,7 @@ typedef struct {
 } Product;
 
 void addProduct(Product *products, int *count, const char *name, float price, int quantity, const char *description, const char *category);
-void searchProduct(Product *products, int count, const char *keyword);
+void searchProduct(Product *products, int count);
 void displayProducts(Product *products, int count);
 void addProductToDB();
 

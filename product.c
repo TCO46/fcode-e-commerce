@@ -63,7 +63,17 @@ void addProductToDB() {
 }
 
 // Tìm kiếm sản phẩm theo từ khóa
-void searchProduct(Product *products, int count, const char *keyword) {
+void searchProduct(Product *products, int count) {
+
+    char keyword[100];
+    printf("Enter the keyword or category: ");
+
+    getchar();  // Đọc ký tự '\n' còn sót lại từ scanf trước đó
+
+    fgets(keyword, sizeof(keyword), stdin);  // Dùng fgets để đọc chuỗi có khoảng trắng
+    keyword[strcspn(keyword, "\n")] = 0;
+
+
     int found = 0;
     printf("ID   | Name                           | Price       | Stock | Category\n");
     printf("-------------------------------------------------------------------------\n");

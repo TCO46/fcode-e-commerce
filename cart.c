@@ -1,16 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "cart.h"
 #include "product.h"
 
 
-// 🛒 Thêm sản phẩm vào giỏ hàng
+// Thêm sản phẩm vào giỏ hàng
 void addToCart(const char *username, Product product, int quantity) {
     char filename[100];
     sprintf(filename, "%s%s.txt", CART_FOLDER, username); // Tạo file theo username
 
-    FILE *file = fopen(filename, "a"); // Mở file ở chế độ append (thêm dữ liệu)
+    FILE *file = fopen(filename, "a"); 
     if (file == NULL) {
         printf("Error: Cannot open cart file for user %s\n", username);
         return;
@@ -27,7 +28,17 @@ void addToCart(const char *username, Product product, int quantity) {
 
 
 
-void searchAndDisplayProducts(Product *products, int count, const char *keyword, const char *username) {
+void searchAndDisplayProducts(Product *products, int count, const char *username) {
+
+    printf("\nAdd product to %s'cart:\n", username);
+    printf("\nEnter keyword or category: ");
+
+    getchar();
+
+    char keyword[100];
+    fgets(keyword, sizeof(keyword), stdin); 
+    keyword[strcspn(keyword, "\n")] = 0; 
+
 
     int found = 0;
 
@@ -59,18 +70,19 @@ void searchAndDisplayProducts(Product *products, int count, const char *keyword,
         printf("\nEnter the quantity to add: ");
         scanf("%d", &quantity);
 
-        getchar();
-
 
         addToCart(username, matchedProducts[choice - 1], quantity);
 
     }
+
+    printf("\nPress any key to return...");
 }
 
 
 
-// ❌ Xóa sản phẩm khỏi giỏ hàng
-void removeFromCart(const char *username, const char *productName) {
+// Xóa sản phẩm khỏi giỏ hàng
+void removeFromCart(const char *username) 
+{
     char filename[100], tempFile[100];
     sprintf(filename, "%s%s.txt", CART_FOLDER, username);
     sprintf(tempFile, "%s%s_temp.txt", CART_FOLDER, username);
@@ -83,22 +95,70 @@ void removeFromCart(const char *username, const char *productName) {
         return;
     }
 
-    char line[512];
-    int removed = 0;
+    printf("\n%s'cart:\n\n", username);
 
-    while (fgets(line, sizeof(line), file)) {
+    char line[512];
+
+    int id = 0;
+    while (fgets(line, sizeof(line), file)) 
+    {
+        char name[100], description[255], category[50];
+        float price;
+        int quantity;
+
+        id++;  
+
+        sscanf(line, "%99[^,],%f,%d,%255[^,],%49[^\n]", name, &price, &quantity, description, category);
+        printf("(%d):  \nName: %s\nPrice: %.2f\nQuantity: %d\nDescription: %s\nCategory: %s\n\n", id, name, price, quantity, description, category);
+    }
+
+
+    if (id == 0) {
+        printf("Cart for %s is empty.\n", username);
+
+        fclose(file);
+        fclose(temp);
+
+        remove(filename);  
+
+
+        return;
+    }
+
+    int removeId;
+
+    printf("\nEnter product number you want to remove: ");
+    scanf("%d", &removeId);
+
+    if (removeId > id || removeId < 1) {
+        printf("%d is too large or too small!!", removeId);
+        return;
+    }
+
+
+    id = 0;
+    char productName[100];
+
+    rewind(file);
+
+    while (fgets(line, sizeof(line), file)) 
+    {
         char name[100], description[255], category[50];
         float price;
         int quantity;
 
         sscanf(line, "%99[^,],%f,%d,%255[^,],%49[^\n]", name, &price, &quantity, description, category);
-        
-        if (strcmp(name, productName) != 0) { 
+
+        id++;
+
+        if (id != removeId) { 
             fprintf(temp, "%s,%.2f,%d,%s,%s\n", name, price, quantity, description, category);
-        } else {
-            removed = 1;
+        }
+        else {
+            strcpy(productName, name);
         }
     }
+
 
     fclose(file);
     fclose(temp);
@@ -106,21 +166,18 @@ void removeFromCart(const char *username, const char *productName) {
     remove(filename);            // Xóa file cũ
     rename(tempFile, filename);  // Đổi tên file mới thành file gốc
 
-    if (removed) {
-        printf("Removed %s from cart for user %s\n", productName, username);
-    } else {
-        printf("Product %s not found in cart\n", productName);
-    }
+    printf("Removed %s from cart\n", productName);
+    printf("\nPress any key to return...");
 }
 
-// 🛒 Hiển thị giỏ hàng
+// Hiển thị giỏ hàng
 void displayCart(const char *username) {
     char filename[100];
     sprintf(filename, "%s%s.txt", CART_FOLDER, username);
 
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
-        printf("Cart for %s is empty or does not exist.\n", username);
+        printf("\nCart for %s is empty or does not exist.\n", username);
         return;
     }
 
@@ -128,12 +185,15 @@ void displayCart(const char *username) {
     float price, total = 0;
     int quantity;
 
-    printf("Cart for %s:\n", username);
+    printf("\nCart for %s:\n", username);
     while (fscanf(file, "%99[^,],%f,%d,%255[^,],%49[^\n]\n", name, &price, &quantity, description, category) == 5) {
         printf("  - %s (x%d) - %.2f$\n", name, quantity, price * quantity);
         total += price * quantity;
     }
 
-    printf("Total: %.2f$\n", total);
+    printf("\nTotal: %.2f$\n", total);
+
+    printf("\nPress any key to return...");
+
     fclose(file);
 }
