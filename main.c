@@ -4,6 +4,7 @@
 #include "interface.h"
 #include "user.h"
 #include "product.h"
+#include "cart.h"
 
 int main() {
 	
@@ -14,8 +15,8 @@ int main() {
 	// Đọc sản phẩm từ file PRODUCT_FILE (đã được định nghĩa trong product.h)
 
 	while(1) {
-		system("clear");
-		// system("cls");
+		// system("clear");
+		system("cls");
 		showTitle();
 		showMenu();
 		scanf("%c", &choice);
@@ -56,30 +57,58 @@ int main() {
 
 				break;
 			case '5':
+
 				if(strlen(loggedInUser) > 0) {
-
-					char keyword[100];
-					printf("Enter the keyword or category: ");
-
-					getchar();  // Đọc ký tự '\n' còn sót lại từ scanf trước đó
-
-					fgets(keyword, sizeof(keyword), stdin);  // Dùng fgets để đọc chuỗi có khoảng trắng
-					keyword[strcspn(keyword, "\n")] = 0;  // Loại bỏ dấu '\n' nếu có
-
-					searchProduct(products, productCount, keyword);
+					searchProduct(products, productCount);
 				} else {
 					printf("You need to login first");
 				}
 
 				break;
+
 			case '6':
 				if(strlen(loggedInUser) > 0) {
 					addProductToDB();
 				} else {
 					printf("You need to login first.");
 				}
-				
+
 				break;
+
+			// HERE
+
+			case '7':
+
+				if(strlen(loggedInUser) > 0) {
+					searchAndDisplayProducts(products, productCount, loggedInUser);
+				} else {
+					printf("You need to login first.");
+				}
+
+				break;
+
+			case '8':
+
+				if(strlen(loggedInUser) > 0) {
+					removeFromCart(loggedInUser);
+				} else {
+					printf("You need to login first.");
+				}
+
+				break;
+
+			case '9':
+
+				if(strlen(loggedInUser) > 0) {
+					displayCart(loggedInUser);
+				} else {
+					printf("You need to login first.");
+				}
+
+				break;
+
+			// END
+				
 			case 'e':
 				printf("Exiting...");
 				return 0;
@@ -87,6 +116,7 @@ int main() {
 				printf("Invalid choice. Please try again!");
 				system("clear");
 		}
+
 		getchar();
 		getchar();
 	}
