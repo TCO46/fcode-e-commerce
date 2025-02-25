@@ -22,6 +22,7 @@ void addProduct(Product *products, int *count, const char *name, float price, in
 void searchProduct(Product *products, int count);
 void displayProducts(Product *products, int count);
 void addProductToDB();
+void clearInputBuffer();
 
 // Hàm đọc sản phẩm từ file
 int readProductsFromFile(Product *products);

@@ -15,8 +15,7 @@ int main() {
 	// Đọc sản phẩm từ file PRODUCT_FILE (đã được định nghĩa trong product.h)
 
 	while(1) {
-		// system("clear");
-		system("cls");
+		printf("\e[1;1H\e[2J");
 		showTitle();
 		showMenu();
 		scanf("%c", &choice);
@@ -42,6 +41,8 @@ int main() {
 				logoutUser();
 				break;
 			case '4':
+				printf("\e[1;1H\e[2J");
+
 				if(strlen(loggedInUser) > 0) {
 
 				    if (productCount == 0) {
@@ -57,6 +58,7 @@ int main() {
 
 				break;
 			case '5':
+				printf("\e[1;1H\e[2J");
 
 				if(strlen(loggedInUser) > 0) {
 					searchProduct(products, productCount);
@@ -67,6 +69,8 @@ int main() {
 				break;
 
 			case '6':
+				printf("\e[1;1H\e[2J");
+
 				if(strlen(loggedInUser) > 0) {
 					addProductToDB();
 				} else {

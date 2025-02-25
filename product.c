@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "product.h"
+#include "cart.h"
 
 void clearInputBuffer() {
     int c;

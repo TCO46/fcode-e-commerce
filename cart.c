@@ -5,7 +5,6 @@
 #include "cart.h"
 #include "product.h"
 
-
 // Thêm sản phẩm vào giỏ hàng
 void addToCart(const char *username, Product product, int quantity) {
     char filename[100];
@@ -170,6 +169,43 @@ void removeFromCart(const char *username)
     printf("\nPress any key to return...");
 }
 
+void checkoutCart(char *username) {
+    char checkOutName[100];
+    sprintf(checkOutName, "%s%s.txt", CHECKOUT_FOLDER, username);
+
+    FILE *fileCheckOut = fopen(checkOutName, "a");
+    if(fileCheckOut == NULL) {
+        printf("Error opening file 2!\n");
+        return;
+    }
+
+    char cartName[100];
+    sprintf(cartName, "%s%s.txt", CART_FOLDER, username);
+
+    FILE *fileCart = fopen(cartName, "w");
+    if(fileCart == NULL) {
+        printf("Error opening file 1!\n");
+        return;
+    }
+
+    char name[100], description[255], category[50];
+    float price, total = 0;
+    int quantity;
+
+    while (fscanf(fileCart, "%99[^,],%f,%d,%255[^,],%49[^\n]\n", name, &price, &quantity, description, category) == 5) {
+        // printf("  - %s (x%d) - %.2f$\n", name, quantity, price * quantity);
+        fprintf(fileCheckOut, "%s, %d, %.2f, %s", name, quantity, price, category);
+    }
+
+
+    fclose(fileCheckOut);
+    fclose(fileCart);
+
+    remove(cartName);
+    
+    printf("Successfully checkouted.");
+}
+
 // Hiển thị giỏ hàng
 void displayCart(const char *username) {
     char filename[100];
@@ -193,7 +229,21 @@ void displayCart(const char *username) {
 
     printf("\nTotal: %.2f$\n", total);
 
-    printf("\nPress any key to return...");
+    char options;
+
+    printf("\nDo you want to checkout now? [y/n] ");
+
+    clearInputBuffer();
+    scanf("%s", &options);
+
+    if(options == 'n') {
+        printf("\nPress any key to return...");
+        return;
+    } else {
+        checkoutCart((char*)username);
+    }
+
 
     fclose(file);
 }
+
