@@ -14,9 +14,11 @@ void showMenu() {
     printf("4. View Products\n");
     printf("5. Search Products\n");
     printf("6. Add new product\n");
-    printf("7. Add product to cart\n");
-    printf("8. Remove product to cart\n");
-    printf("9. View cart\n");
+    printf("7. Delete product\n");
+    printf("8. Update product\n");
+    printf("9. Add product to cart\n");
+    printf("a. Remove product to cart\n");
+    printf("b. View cart\n");
     printf("e. Exit\n");
     printf("\nChoose an option: ");
 }
