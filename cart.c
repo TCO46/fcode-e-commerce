@@ -24,9 +24,6 @@ void addToCart(const char *username, Product product, int quantity) {
     printf("Added %s (x%d) to cart for user %s\n", product.name, quantity, username);
 }
 
-
-
-
 void searchAndDisplayProducts(Product *products, int count, const char *username) {
 
     printf("\nAdd product to %s'cart:\n", username);
@@ -182,7 +179,7 @@ void checkoutCart(char *username) {
     char cartName[100];
     sprintf(cartName, "%s%s.txt", CART_FOLDER, username);
 
-    FILE *fileCart = fopen(cartName, "w");
+    FILE *fileCart = fopen(cartName, "r");
     if(fileCart == NULL) {
         printf("Error opening file 1!\n");
         return;
@@ -193,8 +190,7 @@ void checkoutCart(char *username) {
     int quantity;
 
     while (fscanf(fileCart, "%99[^,],%f,%d,%255[^,],%49[^\n]\n", name, &price, &quantity, description, category) == 5) {
-        // printf("  - %s (x%d) - %.2f$\n", name, quantity, price * quantity);
-        fprintf(fileCheckOut, "%s, %d, %.2f, %s", name, quantity, price, category);
+        fprintf(fileCheckOut, "%s, %d, %.2f, %s\n", name, quantity, price, category);
     }
 
 
