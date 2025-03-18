@@ -22,7 +22,6 @@ int main() {
 
 		int productCount = readProductsFromFile(products);
 
-
 		switch (choice) {
 			case '1':
 				registerUser();
@@ -78,10 +77,31 @@ int main() {
 				}
 
 				break;
+			
+			case '7':
+				printf("\e[1;1H\e[2J");
+				
+				
+				if(strlen(loggedInUser) > 0) {
+					deleteProduct(products, productCount);
+				} else {
+					printf("You need to login first.");
+				}
 
+				break;
+			case '8':
+				printf("\e[1;1H\e[2J");
+				
+				if(strlen(loggedInUser) > 0) {
+					updateProduct(products, productCount);
+				} else {
+					printf("You need to login first.");
+				}
+
+				break;
 			// HERE
 
-			case '7':
+			case '9':
 
 				if(strlen(loggedInUser) > 0) {
 					searchAndDisplayProducts(products, productCount, loggedInUser);
@@ -91,7 +111,7 @@ int main() {
 
 				break;
 
-			case '8':
+			case 'a':
 
 				if(strlen(loggedInUser) > 0) {
 					removeFromCart(loggedInUser);
@@ -101,7 +121,7 @@ int main() {
 
 				break;
 
-			case '9':
+			case 'b':
 
 				if(strlen(loggedInUser) > 0) {
 					displayCart(loggedInUser);
@@ -110,7 +130,6 @@ int main() {
 				}
 
 				break;
-
 			// END
 				
 			case 'e':
