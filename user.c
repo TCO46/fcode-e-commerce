@@ -1,12 +1,16 @@
 #include <stdio.h>
 #include <string.h>
 #include "user.h"
+#include "product.h"
 
 char loggedInUser[MAX_USERNAME] = "";
 
 void registerUser() {
     User user;
+    char line[512];
+    char fileUsername[50];
 
+    FILE *readFile = fopen(USER_FILE, "r");
     FILE *file = fopen(USER_FILE, "a");
 
     if(!file) {
@@ -20,10 +24,22 @@ void registerUser() {
     printf("Enter Password: ");
     scanf("%s", user.password);
 
+    while(fgets(line, sizeof(line), readFile)) {
+	if(sscanf(line, "%s", fileUsername) == 1) {
+	    if(strcmp(fileUsername, user.username) == 0) {
+		fclose(readFile);
+		printf("User already registered!");
+		return;
+	    }
+	}
+    }
+
+    printf("%s\n\n\n", fileUsername);
+
     fprintf(file, "%s %s\n", user.username, user.password);
     fclose(file);
 
-    printf("User registed successfully.");
+    printf("User registered successfully.");
 }
 
 int loginUser() {
