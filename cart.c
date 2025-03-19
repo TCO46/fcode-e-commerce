@@ -102,7 +102,7 @@ void removeFromCart(const char *username)
         float price;
         int quantity;
 
-        id++;  
+        id++;
 
         sscanf(line, "%99[^,],%f,%d,%255[^,],%49[^\n]", name, &price, &quantity, description, category);
         printf("(%d):  \nName: %s\nPrice: %.2f\nQuantity: %d\nDescription: %s\nCategory: %s\n\n", id, name, price, quantity, description, category);
@@ -167,10 +167,14 @@ void removeFromCart(const char *username)
 }
 
 void checkoutCart(char *username) {
+
+    Product product[MAX_PRODUCTS];
+
     char checkOutName[100];
     sprintf(checkOutName, "%s%s.txt", CHECKOUT_FOLDER, username);
 
     FILE *fileCheckOut = fopen(checkOutName, "a");
+    FILE *fileProduct = fopen(PRODUCT_FILE, "w");
     if(fileCheckOut == NULL) {
         printf("Error opening file 2!\n");
         return;
